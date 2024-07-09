@@ -12,7 +12,7 @@ st.title('West Bengal Highway Dashboard')
 
 st.sidebar.title(':blue[About]')
 st.sidebar.info('Explore the National and State Highway Statistics'\
-                ' of different Districts of West Bengal', ,  icon=":material/monitoring:")
+                ' of different Districts of West Bengal', icon=":material/monitoring:")
 
 data_url = 'https://github.com/somdeepkundu/geoKosh/' \
     'raw/main/osmRoads/'
