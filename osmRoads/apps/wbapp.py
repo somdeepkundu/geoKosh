@@ -40,8 +40,8 @@ lengths_df = read_csv(csv_url)
 # Data Selection and backend processing
 districts = districts_gdf.District.values
 district = st.sidebar.selectbox('Select a District', districts)
-overlay_nh = st.sidebar.checkbox('Overlay :blue[NH]')
-overlay_sh = st.sidebar.checkbox('Overlay :red[SH]')
+overlay_nh = st.sidebar.checkbox('Overlay NH')
+overlay_sh = st.sidebar.checkbox('Overlay SH')
 district_lengths = lengths_df[lengths_df['District'] == district]
 
 # Plotting Chart
