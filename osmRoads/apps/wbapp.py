@@ -106,7 +106,10 @@ m.add_gdf(
 
 m_streamlit = m.to_streamlit(800, 600)
 st.write('*By Somdeep Kundu!* :sunglasses:')
-
+st.markdown('''
+---
+Created with ❤️ by [Somdeep Kundu](https://www.youtube.com/@sthan-kaal-patra/).
+''')
 
 
 # Download Chart
