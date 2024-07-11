@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import leafmap.foliumap as leafmap
 
 # Page Configuration
-st.set_page_config(page_title='Rasta', layout='wide')
+st.set_page_config(page_title='Rasta', layout='wide', initial_sidebar_state='expanded')
 
 # Title
 st.title('West Bengal Highway Dashboard')  
