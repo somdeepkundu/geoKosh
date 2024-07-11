@@ -124,8 +124,8 @@ m.add_gdf(
 )
 
 # Display Map in Streamlit
-# m_streamlit = m.to_streamlit(800, 600)
-m_streamlit = m.to_streamlit(height=400)
+m_streamlit = m.to_streamlit(800, 600)
+# m_streamlit = m.to_streamlit(height=400)
 
 
 
