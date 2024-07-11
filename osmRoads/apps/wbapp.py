@@ -4,22 +4,24 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import leafmap.foliumap as leafmap
 
-
-
+# Page Configuration
 st.set_page_config(page_title='Rasta', layout='wide')
 
+# Title
 st.title('West Bengal Highway Dashboard')  
 
+# Sidebar: About Section
 st.sidebar.title(':blue[About]')
 st.sidebar.info('Explore the National and State Highway Statistics'\
                 ' of different Districts of West Bengal', icon=":material/monitoring:")
 
+# Data URLs
 data_url = 'https://github.com/somdeepkundu/geoKosh/' \
     'raw/main/osmRoads/'
-         
 gpkg_file = 'wb_roads.gpkg'
 csv_file = 'wb_mejor_roads.csv'
 
+# Data Reading Functions
 @st.cache_data
 def read_gdf(url, layer): 
     gdf = gpd.read_file(url, layer=layer)
@@ -30,6 +32,7 @@ def read_csv(url):
     df = pd.read_csv(url)
     return df
 
+# Load Data
 gpkg_url = data_url + gpkg_file
 csv_url = data_url + csv_file
 districts_gdf = read_gdf(gpkg_url, 'wb_district')
@@ -37,7 +40,7 @@ nh_gdf = read_gdf(gpkg_url, 'wb_nh')
 sh_gdf = read_gdf(gpkg_url, 'wb_sh')
 lengths_df = read_csv(csv_url)
 
-# Data Selection and backend processing
+# Sidebar: Data Selection
 districts = districts_gdf.District.values
 district = st.sidebar.selectbox('Select a District', districts)
 overlay_nh = st.sidebar.checkbox('Overlay NH')
@@ -55,10 +58,26 @@ ax.set_ylim(0, 402)  # in KM
 fig.patch.set_facecolor('#969696') # Chart background color
 ax.set_facecolor('#cccccc')
 
+# Display Chart in Sidebar
 stats = st.sidebar.pyplot(fig)
 
-## Create the map
+# Download Chart
+file_name = f'{district} Highways.png'  
+plt.savefig(file_name, format='png')
+with open(file_name, 'rb') as img:
+    st.sidebar.download_button(
+        'Download Chart',
+        data=img,
+        file_name=file_name,
+        mime='image/png')
 
+# Credit Section
+st.sidebar.markdown('''
+---
+Created with ❤️ by [Somdeep](https://www.youtube.com/@sthan-kaal-patra/).
+''')
+
+# Create the Map
 m = leafmap.Map(
     layers_control=True,
     draw_control=False,
@@ -72,9 +91,9 @@ m.add_gdf(
     layer_name='Districts',
     info_mode='on_click',
     style={'color': '#00d692', 'fillOpacity': 0.2, 'weight': 0.5},
-    )
+)
 
-
+# Overlay National Highways
 if overlay_nh:
     m.add_gdf(
         gdf=nh_gdf,
@@ -83,6 +102,8 @@ if overlay_nh:
         info_mode=None,
         style={'color': '#4aacff', 'weight': 1.8},
     )  
+
+# Overlay State Highways
 if overlay_sh:
     m.add_gdf(
         gdf=sh_gdf,
@@ -92,32 +113,15 @@ if overlay_sh:
         style={'color': '#ff827a', 'weight': 1.6}, #red
     )
 
-    
+# Highlight Selected District
 selected_gdf = districts_gdf[districts_gdf['District'] == district]
-
 m.add_gdf(
     gdf=selected_gdf,
     layer_name='Selected District',
     zoom_to_layer=True,
     info_mode=None,
     style={'color': '#f1d600', 'fill': None, 'weight': 2} #yellow
- )
+)
 
-
+# Display Map in Streamlit
 m_streamlit = m.to_streamlit(800, 600)
-st.write('*By Somdeep Kundu!* :sunglasses:')
-
-
-# Download Chart
-file_name = f'{district} Highways.png'  
-plt.savefig(file_name, format='png')
-with open(file_name, 'rb') as img:
-    st.sidebar.download_button(
-        'Download Chart',
-        data=img,
-        file_name=file_name,
-        mime='image/png')
-st.sidebar.markdown('''
----
-Created with ❤️ by [Somdeep Kundu](https://www.youtube.com/@sthan-kaal-patra/).
-''')
