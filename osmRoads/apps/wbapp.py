@@ -1,53 +1,36 @@
 import streamlit as st
 import geopandas as gpd
 import pandas as pd
-import altair as alt
+import matplotlib.pyplot as plt
 import leafmap.foliumap as leafmap
 
 # Page Configuration
 st.set_page_config(page_title='Rasta', layout='wide')
 
-# Custom CSS
-st.markdown("""
-    <style>
-    .sidebar .sidebar-content {
-        background-color: #f8f9fa;
-    }
-    .css-1d391kg {
-        background-color: #1e3a5f !important;
-    }
-    .css-qbe2hs {
-        color: #ffffff !important;
-    }
-    .css-1cpxqw2 a {
-        color: #1e3a5f !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
 # Title
-st.title('West Bengal Highway Dashboard')
+st.title('West Bengal Highway Dashboard')  
 
 # Sidebar: About Section
-st.sidebar.title('About')
-st.sidebar.info(
-    'Explore the National and State Highway Statistics of different Districts of West Bengal',
-    icon=":bar_chart:"
-)
+st.sidebar.title(':blue[About]')
+st.sidebar.info('Explore the National and State Highway Statistics'\
+                ' of different Districts of West Bengal', icon=":material/monitoring:")
 
 # Data URLs
-data_url = 'https://github.com/somdeepkundu/geoKosh/raw/main/osmRoads/'
+data_url = 'https://github.com/somdeepkundu/geoKosh/' \
+    'raw/main/osmRoads/'
 gpkg_file = 'wb_roads.gpkg'
 csv_file = 'wb_mejor_roads.csv'
 
 # Data Reading Functions
 @st.cache_data
-def read_gdf(url, layer):
-    return gpd.read_file(url, layer=layer)
+def read_gdf(url, layer): 
+    gdf = gpd.read_file(url, layer=layer)
+    return gdf
 
 @st.cache_data
 def read_csv(url):
-    return pd.read_csv(url)
+    df = pd.read_csv(url)
+    return df
 
 # Load Data
 gpkg_url = data_url + gpkg_file
@@ -64,34 +47,29 @@ overlay_nh = st.sidebar.checkbox('Overlay NH')
 overlay_sh = st.sidebar.checkbox('Overlay SH')
 district_lengths = lengths_df[lengths_df['District'] == district]
 
-# Plotting Chart with Altair
-chart = alt.Chart(district_lengths).mark_bar().encode(
-    x=alt.X('Category', sort=None, axis=alt.Axis(title=None, labels=False)),
-    y=alt.Y('Kilometers', axis=alt.Axis(title='Kilometers')),
-    color=alt.Color('Category', scale=alt.Scale(range=['#ff827a', '#4aacff']))
-).properties(
-    title=f'Length of Highways - {district}',
-    width=600,
-    height=400
-).configure_axis(
-    grid=False
-).configure_view(
-    strokeWidth=0
-)
+# Plotting Chart
+fig, ax = plt.subplots(1, 1)
+district_lengths.plot(kind='bar', ax=ax, color=['#ff827a', '#4aacff'], #red, blue
+    ylabel='Kilometers', xlabel='Category')
+ax.set_title(f'Length of Highways - {district}')
+ax.get_xaxis().set_ticklabels([])
+ax.set_ylim(0, 402)  # in KM
+
+fig.patch.set_facecolor('#969696') # Chart background color
+ax.set_facecolor('#cccccc')
 
 # Display Chart in Sidebar
-st.sidebar.altair_chart(chart, use_container_width=True)
+stats = st.sidebar.pyplot(fig)
 
 # Download Chart
-file_name = f'{district}_Highways.png'
-chart.save(file_name)
+file_name = f'{district} Highways.png'  
+plt.savefig(file_name, format='png')
 with open(file_name, 'rb') as img:
     st.sidebar.download_button(
         'Download Chart',
         data=img,
         file_name=file_name,
-        mime='image/png'
-    )
+        mime='image/png')
 
 # Credit Section
 st.sidebar.markdown('''
@@ -146,4 +124,4 @@ m.add_gdf(
 )
 
 # Display Map in Streamlit
-m.to_streamlit(height=600)
+m_streamlit = m.to_streamlit(800, 600)
