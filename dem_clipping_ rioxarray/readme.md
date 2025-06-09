@@ -3,7 +3,8 @@
 
 **A Python/Colab pipeline to download, mosaic, and clip SRTM DEM data for Purulia District, India**
 
-![bbox](https://github.com/user-attachments/assets/4a95fbc6-732d-4829-abf0-d68c73b8c176)
+![aoi_bbox](https://github.com/user-attachments/assets/0def6cec-9c3a-4b05-8026-06526acfcc55)
+
 
 ---
 
@@ -38,7 +39,7 @@ All dependencies are installed in the notebook cells.
 ## How to Run
 
 1. **Open the notebook in Google Colab**:  
-   [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](YOUR_NOTEBOOK_LINK_HERE)
+   [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/18UuRIa1y9twIXAmNs9lV-gaOVPe0AJ5w?usp=sharing)
 
 2. **Run each cell sequentially**:  
    The notebook will automatically download data, process, and save outputs in `/content/output`.
@@ -58,5 +59,10 @@ All dependencies are installed in the notebook cells.
 
 Feel free to open issues or contribute improvements!
 
+---
 
+BUILT ON THE WORKS OF UJAVAL GANDHI SIR, SPATIAL THOUGHTS
 
+![Ff9ctKNlku0-MQ](https://github.com/user-attachments/assets/a7dc4ca9-1749-4159-bd14-7086f8e7aa4d)
+
+[Watch YouTube Video Walkthrough](https://www.youtube.com/watch?v=Ff9ctKNlku/)
