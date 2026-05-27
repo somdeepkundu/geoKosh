@@ -6,7 +6,7 @@ Administrative boundaries of 761 gram panchayats across 14 blocks in Raigad dist
 
 ## Quick Start
 
-- **Visualize:** Drag `raigad_panchayats.geojson` to [mapshaper.org](https://mapshaper.org/)
+- **Visualize:** Drag `raigad_panchayats_simplified.geojson` to [mapshaper.org](https://mapshaper.org/)
 - **Analyze:** Open `raigad_panchayats.xlsx` (Excel) or `raigad_panchayats.csv` (spreadsheet)
 - **Read Report:** Open `raigad_panchayats_report.html` in any browser
 
